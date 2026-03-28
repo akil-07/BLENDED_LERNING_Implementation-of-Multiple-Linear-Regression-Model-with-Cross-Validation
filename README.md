@@ -1,4 +1,4 @@
-# BLENDED_LERNING
+<img width="1096" height="711" alt="image" src="https://github.com/user-attachments/assets/a1d624ec-2c15-4d1d-ba19-9e77ee5a3319" /># BLENDED_LERNING
 # Implementation-of-Multiple-Linear-Regression-Model-with-Cross-Validation-for-Predicting-Car-Prices
 
 ## AIM:
@@ -27,63 +27,52 @@ Program to implement the multiple linear regression model for predicting car pri
 Developed by: AKIL S
 RegisterNumber: 212225220007
 */
-# Importing necessary libraries
 import pandas as pd
-import numpy as np
-import statsmodels.api as sm
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split,cross_val_score
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error,r2_score,mean_absolute_error
 import matplotlib.pyplot as plt
 
-# Load the dataset
-data = pd.read_csv("https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML240EN-SkillsNetwork/labs/data/CarPrice_Assignment.csv")
+data=pd.read_csv("CarPrice_Assignment (1) (2).csv")
+data.head()
+data=data.drop(['car_ID','CarName'],axis=1)
+data=pd.get_dummies(data,drop_first=True)
+data.head()
+x=data.drop('price',axis=1)
+y=data['price']
+x_train,x_test,y_train,y_test= train_test_split(x,y,test_size=0.2,random_state=42)
 
-# Data preprocessing
-# Dropping unnecessary columns and handling categorical variables
-data = data.drop(['CarName', 'car_ID'], axis=1)
-data = pd.get_dummies(data, drop_first=True)
+model=LinearRegression()
+model.fit(x_train,y_train)
 
-# Splitting the data into features and target variable
-X = data.drop('price', axis=1)
-y = data['price']
+print("Name : AKIL.S")
+print("Reg no: 212225220007")
+print("\n=== Cross Validation ===")
+cv_scores = cross_val_score(model,x,y,cv=5)
+print("Fold R_2 scores : ",[f"{score:.4f}" for score in cv_scores])
+print(f"Average R_2     : {cv_scores.mean():.4f}")
 
-# Splitting the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+y_pred=model.predict(x_test)
+print("\n=== Test Set Performance ===")
+print(f"MSE : {mean_squared_error(y_test,y_pred):.2f}")
+print(f"MAE : {mean_absolute_error(y_test,y_pred):.2f}")
+print(f"R_2 : {r2_score(y_test,y_pred):.4f}")
 
-# Creating the model
-model = LinearRegression()
+plt.figure(figsize=(8,6))
+plt.scatter(y_test,y_pred,alpha=0.6)
+plt.plot([y.min(),y.max()],[y.min(),y.max()],'r--')
+plt.xlabel("Actual Price")
+plt.ylabel("Predicted Price")
+plt.title("Actual vs Prdicted Prices")
+plt.grid(True)
+plt.show()
 
-# Fitting the model on the training data
-model.fit(X_train, y_train)
-
-# Evaluating model performance using cross-validation
-cv_scores = cross_val_score(model, X, y, cv=5)
-
-# Printing cross-validation scores
-print("Cross-validation scores:", cv_scores)
-print("Mean cross-validation score:", cv_scores.mean())
-
-# Print model coefficients
-print("Intercept:", model.intercept_)
-print("Coefficients:", model.coef_)
-
-# Make predictions
-predictions = model.predict(X_test)
-
-# Visualizing actual vs predicted prices
-plt.scatter(y_test, predictions)
-plt.xlabel("Actual Prices")
-plt.ylabel("Predicted Prices")
-plt.title("Actual vs Predicted Prices")
-plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color='red')  # Perfect prediction line
-plt.show() 
 
 ```
 
 ## Output:
-<img width="833" height="54" alt="image" src="https://github.com/user-attachments/assets/909cf9ac-2c3a-4c0f-8fca-2a5af3ebc3be" />
-<img width="777" height="265" alt="image" src="https://github.com/user-attachments/assets/00369ddb-f592-4318-9a27-75d9217ad5dc" />
-<img width="764" height="559" alt="image" src="https://github.com/user-attachments/assets/93878cb3-9d67-4979-9d08-1658cd25a405" />
+<img width="1096" height="711" alt="image" src="https://github.com/user-attachments/assets/54590c91-dc1b-4adb-9fb8-2d4749d60bc0" />
+
 
 
 

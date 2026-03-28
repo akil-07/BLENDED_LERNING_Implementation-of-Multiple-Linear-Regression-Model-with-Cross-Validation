@@ -1,4 +1,4 @@
-<img width="1096" height="711" alt="image" src="https://github.com/user-attachments/assets/a1d624ec-2c15-4d1d-ba19-9e77ee5a3319" /># BLENDED_LERNING
+# BLENDED_LERNING
 # Implementation-of-Multiple-Linear-Regression-Model-with-Cross-Validation-for-Predicting-Car-Prices
 
 ## AIM:
